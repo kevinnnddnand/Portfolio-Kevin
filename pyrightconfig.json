@@ -1,0 +1,25 @@
+{
+  // Pylance/pyright no entiende los constructores que SQLAlchemy genera en
+  // tiempo de ejecución, por lo que marca cada `Modelo(campo=...)` como
+  // "No parameter named ..." y cada relationship como "not iterable".
+  // Estas reglas se desactivan a propósito: el código se valida con ruff,
+  // pytest (36 pruebas) y la ejecución real de la aplicación.
+  "include": ["portfolio", "tests", "scripts", "app.py", "config.py", "wsgi.py"],
+  "exclude": [
+    ".venv",
+    "instance",
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache",
+    "docs"
+  ],
+  "pythonVersion": "3.14",
+  "typeCheckingMode": "basic",
+  "reportCallIssue": "none",
+  "reportAttributeAccessIssue": "none",
+  "reportArgumentType": "none",
+  "reportGeneralTypeIssues": "none",
+  "reportIndexIssue": "none",
+  "reportMissingTypeStubs": "none",
+  "reportIncompatibleMethodOverride": "none"
+}

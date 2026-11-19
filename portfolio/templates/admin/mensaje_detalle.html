@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ mensaje.asunto }}{% endblock %}
+{% block breadcrumb %}Mensajes / Detalle{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <a class="back-link" href="{{ url_for('admin.mensajes') }}"><i class="fa-solid fa-arrow-left"></i> Volver a mensajes</a>
+    <h1 class="message-title">{{ mensaje.asunto }}</h1>
+    <p>Recibido el {{ mensaje.creado_en|fecha_hora }}</p>
+  </div>
+  <div class="page-head-actions">
+    <a class="btn btn-primary" href="mailto:{{ mensaje.email }}?subject=Re: {{ mensaje.asunto|urlencode }}">
+      <i class="fa-solid fa-reply"></i> Responder por email
+    </a>
+  </div>
+</div>
+
+<div class="message-detail-grid">
+  <section class="card message-detail">
+    <div class="message-sender">
+      <span class="message-avatar large">{{ mensaje.nombre[:1]|upper }}</span>
+      <div>
+        <strong>{{ mensaje.nombre }}</strong>
+        <a href="mailto:{{ mensaje.email }}">{{ mensaje.email }}</a>
+      </div>
+      {% if mensaje.leido %}<span class="pill pill-ok">Leído</span>{% else %}<span class="pill pill-new">Nuevo</span>{% endif %}
+    </div>
+
+    <div class="message-body">{{ mensaje.mensaje }}</div>
+
+    <div class="message-detail-actions">
+      <form method="post" action="{{ url_for('admin.mensaje_leido', item_id=mensaje.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-ghost">
+          <i class="fa-solid {% if mensaje.leido %}fa-envelope{% else %}fa-envelope-open{% endif %}"></i>
+          {% if mensaje.leido %}Marcar como no leído{% else %}Marcar como leído{% endif %}
+        </button>
+      </form>
+      <form method="post" action="{{ url_for('admin.mensaje_eliminar', item_id=mensaje.id) }}"
+            data-confirm="¿Eliminar este mensaje? Esta acción no se puede deshacer.">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
+      </form>
+    </div>
+  </section>
+
+  <aside class="form-aside">
+    <div class="card help-card">
+      <h3><i class="fa-solid fa-circle-info"></i> Datos del mensaje</h3>
+      <ul class="message-meta">
+        <li><span>Nombre</span><strong>{{ mensaje.nombre }}</strong></li>
+        <li><span>Email</span><strong>{{ mensaje.email }}</strong></li>
+        <li><span>Asunto</span><strong>{{ mensaje.asunto }}</strong></li>
+        <li><span>Estado</span><strong>{% if mensaje.leido %}Leído{% else %}Sin leer{% endif %}</strong></li>
+        <li><span>Recibido</span><strong>{{ mensaje.creado_en|fecha_hora }}</strong></li>
+      </ul>
+    </div>
+    <div class="card help-card">
+      <h3><i class="fa-solid fa-shield-halved"></i> Privacidad</h3>
+      <p>Estos datos se guardan en MySQL y solo son visibles desde el panel autenticado.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "admin/base.html" %}
+{% from "admin/_macros.html" import render_field %}
+
+{% block title %}Mi cuenta{% endblock %}
+{% block breadcrumb %}Mi cuenta{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <span class="eyebrow">Seguridad</span>
+    <h1><i class="fa-solid fa-gear page-icon"></i> Mi cuenta</h1>
+    <p>Cambiá tu nombre de usuario o la contraseña de acceso al panel.</p>
+  </div>
+</div>
+
+<div class="form-layout">
+  <section class="card">
+    <form method="post" class="admin-form" novalidate>
+      {{ form.hidden_tag() }}
+
+      <div class="form-section-title">
+        <span><i class="fa-solid fa-user"></i> Usuario</span>
+        <small>Se usa para iniciar sesión</small>
+      </div>
+      {{ render_field(form.username) }}
+
+      <div class="form-section-title">
+        <span><i class="fa-solid fa-key"></i> Contraseña</span>
+        <small>Dejá en blanco para conservar la actual</small>
+      </div>
+      {{ render_field(form.actual_password) }}
+      <div class="form-row">
+        {{ render_field(form.nueva_password) }}
+        {{ render_field(form.confirmar_password) }}
+      </div>
+
+      <div class="form-actions">
+        {{ form.submit(class_="btn btn-primary") }}
+        <a class="btn btn-ghost" href="{{ url_for('admin.panel') }}">Cancelar</a>
+      </div>
+    </form>
+  </section>
+
+  <aside class="form-aside">
+    <div class="card account-card">
+      <span class="account-avatar">{{ current_user.nombre[:1]|upper }}</span>
+      <h3>{{ current_user.nombre }}</h3>
+      <p>@{{ current_user.username }}</p>
+      <ul class="account-facts">
+        <li><i class="fa-solid fa-calendar-check"></i> Cuenta creada: {{ current_user.creado_en|fecha_hora }}</li>
+        <li><i class="fa-solid fa-clock-rotate-left"></i> Último acceso: {{ current_user.ultimo_acceso|fecha_hora }}</li>
+        <li><i class="fa-solid fa-shield-halved"></i> Contraseña almacenada con hash</li>
+      </ul>
+    </div>
+
+    <div class="card help-card">
+      <h3><i class="fa-solid fa-lock"></i> Seguridad</h3>
+      <p>Las contraseñas se guardan con <strong>Werkzeug PBKDF2</strong>; nunca en texto plano.</p>
+      <p>Los formularios usan <strong>Flask-WTF + CSRF</strong> y la sesión se protege con Flask-Login.</p>
+      <p>Si publicás el sitio, cambiá la contraseña inicial antes de compartir la URL.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+
+{% block title %}{{ perfil.nombre_completo }} | {{ perfil.titulo }}{% endblock %}
+{% block description %}{{ perfil.bio|truncate(155, True) }}{% endblock %}
+{% block og_title %}{{ perfil.nombre_completo }} | {{ perfil.titulo }}{% endblock %}
+{% block og_description %}{{ perfil.subtitulo or perfil.bio|truncate(150, True) }}{% endblock %}
+
+{% block extra_css %}
+<link rel="preload" as="image" href="{{ perfil.avatar_url|media_url }}">
+{% endblock %}
+
+{% block content %}
+<!-- ============================== HERO ============================== -->
+<section class="hero" id="inicio">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="availability" data-reveal>
+        <span class="pulse-dot" aria-hidden="true"></span>
+        {{ perfil.disponibilidad or "Disponible para nuevos desafíos" }}
+      </span>
+
+      <p class="eyebrow" data-reveal data-delay="1">{{ textos.get('hero.saludo', 'Hola, soy') }}</p>
+      <h1 data-reveal data-delay="2">{{ perfil.nombre_completo }}<span class="accent">.</span></h1>
+
+      <p class="hero-role" data-reveal data-delay="3">
+        <span id="typedRole" class="typed-role" data-roles='["{{ perfil.titulo }}", "{{ textos.get('hero.rol_2', 'Python & Flask') }}", "{{ textos.get('hero.rol_3', 'Backend + MySQL') }}", "{{ textos.get('hero.rol_4', 'Diseño con detalle') }}"]'>{{ perfil.titulo }}</span>
+        <span class="cursor" aria-hidden="true"></span>
+      </p>
+
+      <p class="hero-desc" data-reveal data-delay="4">
+        {{ perfil.subtitulo }}. {{ textos.get('hero.descripcion_extra', 'Convierto ideas en aplicaciones web funcionales, cuidando el modelo de datos, la experiencia de uso y cada detalle del código.') }}
+      </p>
+
+      <div class="hero-actions" data-reveal data-delay="5">
+        <a class="btn btn-primary" href="#proyectos">
+          {{ textos.get('boton.ver_proyectos', 'Ver proyectos') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </a>
+        <a class="btn btn-ghost" href="{{ url_for('public.descargar_cv') }}">
+          <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> {{ textos.get('boton.descargar_cv', 'Descargar CV') }}
+        </a>
+      </div>
+
+      <div class="hero-socials" data-reveal data-delay="6">
+        {% if perfil.github %}
+        <a href="{{ perfil.github }}" target="_blank" rel="noopener" aria-label="Perfil de GitHub">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+        {% if perfil.linkedin %}
+        <a href="{{ perfil.linkedin }}" target="_blank" rel="noopener" aria-label="Perfil de LinkedIn">
+          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+        {% if perfil.email %}
+        <a href="mailto:{{ perfil.email }}" aria-label="Enviar email">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+        <span class="hero-socials-line" aria-hidden="true"></span>
+        <span class="hero-socials-text">{{ perfil.ubicacion }}</span>
+      </div>
+
+      <dl class="hero-stats" data-reveal data-delay="7">
+        <div>
+          <dt>{{ proyectos|length }}+</dt>
+          <dd>{{ textos.get('hero.stat_proyectos', 'Proyectos') }}</dd>
+        </div>
+        <div>
+          <dt>{{ tecnologias|length }}</dt>
+          <dd>{{ textos.get('hero.stat_tecnologias', 'Tecnologías') }}</dd>
+        </div>
+        <div>
+          <dt>{{ estudios|length }}</dt>
+          <dd>{{ textos.get('hero.stat_formaciones', 'Formaciones') }}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="hero-visual" data-reveal data-delay="3">
+      <div class="avatar-wrap">
+        <div class="avatar-frame">
+          <img src="{{ perfil.avatar_url|media_url }}" alt="Retrato ilustrado de {{ perfil.nombre_completo }}" width="420" height="420" fetchpriority="high">
+        </div>
+
+        <div class="float-chip chip-python" aria-hidden="true">
+          <i class="fa-brands fa-python"></i><span>{{ textos.get('hero.chip_python', 'Python') }}</span>
+        </div>
+        <div class="float-chip chip-flask" aria-hidden="true">
+          <i class="fa-solid fa-flask"></i><span>{{ textos.get('hero.chip_flask', 'Flask') }}</span>
+        </div>
+        <div class="float-chip chip-mysql" aria-hidden="true">
+          <i class="fa-solid fa-database"></i><span>{{ textos.get('hero.chip_mysql', 'MySQL') }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a class="scroll-hint" href="#sobre-mi" aria-label="Bajar a la sección Sobre mí">
+    <span class="scroll-mouse" aria-hidden="true"></span>
+    <span>{{ textos.get('hero.scroll', 'Scroll') }}</span>
+  </a>
+</section>
+
+<!-- ============================== SOBRE MÍ ============================== -->
+<section class="section" id="sobre-mi">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="section-kicker">{{ textos.get('sobre.kicker', '01 — Sobre mí') }}</span>
+      <h2>{{ textos.get('sobre.titulo_1', 'Código con criterio,') }}<br><span class="gradient-text">{{ textos.get('sobre.titulo_2', 'interfaces con intención.') }}</span></h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-copy" data-reveal>
+        <p class="lead">{{ perfil.bio }}</p>
+        <p>
+          {{ textos.get('sobre.texto_extra', 'Me interesa especialmente la intersección entre el backend y los datos: diseñar tablas coherentes, escribir APIs claras y construir pantallas que hagan simple lo complejo. Aprendo haciendo y documentando cada decisión.') }}
+        </p>
+        <div class="about-meta">
+          <div class="about-meta-item">
+            <span class="meta-icon"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span>
+            <div><small>{{ textos.get('sobre.etiqueta_ubicacion', 'Ubicación') }}</small><strong>{{ perfil.ubicacion or "Argentina" }}</strong></div>
+          </div>
+          <div class="about-meta-item">
+            <span class="meta-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+            <div><small>{{ textos.get('sobre.etiqueta_email', 'Email') }}</small><a href="mailto:{{ perfil.email }}">{{ perfil.email }}</a></div>
+          </div>
+          <div class="about-meta-item">
+            <span class="meta-icon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></span>
+            <div><small>{{ textos.get('sobre.etiqueta_disponibilidad', 'Disponibilidad') }}</small><strong>{{ perfil.disponibilidad or "Abierto a propuestas" }}</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-cards">
+        <article class="focus-card" data-reveal data-delay="1">
+          <span class="focus-icon"><i class="fa-solid fa-server" aria-hidden="true"></i></span>
+          <div>
+            <h3>{{ textos.get('sobre.foco_backend_titulo', 'Backend') }}</h3>
+            <p>{{ textos.get('sobre.foco_backend_texto', 'APIs REST con Flask, autenticación, formularios seguros y lógica de negocio ordenada.') }}</p>
+          </div>
+          <span class="focus-index">01</span>
+        </article>
+        <article class="focus-card" data-reveal data-delay="2">
+          <span class="focus-icon"><i class="fa-solid fa-database" aria-hidden="true"></i></span>
+          <div>
+            <h3>{{ textos.get('sobre.foco_datos_titulo', 'Datos') }}</h3>
+            <p>{{ textos.get('sobre.foco_datos_texto', 'Modelado relacional en MySQL, consultas eficientes y persistencia con SQLAlchemy.') }}</p>
+          </div>
+          <span class="focus-index">02</span>
+        </article>
+        <article class="focus-card" data-reveal data-delay="3">
+          <span class="focus-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></span>
+          <div>
+            <h3>{{ textos.get('sobre.foco_interfaz_titulo', 'Interfaz') }}</h3>
+            <p>{{ textos.get('sobre.foco_interfaz_texto', 'Jinja2, HTML semántico, CSS responsive y animaciones que acompañan sin distraer.') }}</p>
+          </div>
+          <span class="focus-index">03</span>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ESTUDIOS ============================== -->
+<section class="section section-alt" id="estudios">
+  <div class="container">
+    <div class="section-head split" data-reveal>
+      <div>
+        <span class="section-kicker">{{ textos.get('estudios.kicker', '02 — Formación') }}</span>
+        <h2>{{ textos.get('estudios.titulo', 'Estudios') }} <span class="gradient-text">{{ textos.get('estudios.titulo_acento', 'cursados') }}</span></h2>
+      </div>
+      <p class="section-note">{{ textos.get('estudios.nota', 'La base técnica detrás de cada proyecto: formación formal, cursos y práctica constante.') }}</p>
+    </div>
+
+    <div class="timeline">
+      {% for estudio in estudios %}
+      <article class="timeline-item" data-reveal>
+        <div class="timeline-marker" aria-hidden="true">
+          <span class="timeline-dot"><i class="fa-solid fa-graduation-cap"></i></span>
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-top">
+            <span class="period">{{ estudio.periodo }}</span>
+            {% if estudio.en_curso %}<span class="badge badge-live"><span class="pulse-dot"></span> {{ textos.get('estudios.en_curso', 'En curso') }}</span>{% endif %}
+            <span class="badge">{{ estudio.nivel }}</span>
+          </div>
+          <h3>{{ estudio.titulo }}</h3>
+          <p class="institution"><i class="fa-solid fa-building-columns" aria-hidden="true"></i> {{ estudio.institucion }}{% if estudio.area %} · {{ estudio.area }}{% endif %}</p>
+          {% if estudio.descripcion %}<p class="timeline-desc">{{ estudio.descripcion }}</p>{% endif %}
+        </div>
+      </article>
+      {% else %}
+      <p class="empty-state">{{ textos.get('estudios.vacio', 'Todavía no hay estudios cargados.') }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================== EXPERIENCIA ============================== -->
+<section class="section" id="experiencia">
+  <div class="container">
+    <div class="section-head split" data-reveal>
+      <div>
+        <span class="section-kicker">{{ textos.get('experiencia.kicker', '03 — Trayectoria') }}</span>
+        <h2>{{ textos.get('experiencia.titulo', 'Experiencia') }} <span class="gradient-text">{{ textos.get('experiencia.titulo_acento', 'laboral') }}</span></h2>
+      </div>
+      <p class="section-note">{{ textos.get('experiencia.nota', 'Trabajo real, problemas reales y aprendizajes que se traducen en mejores soluciones.') }}</p>
+    </div>
+
+    <div class="timeline timeline-exp">
+      {% for experiencia in experiencias %}
+      <article class="timeline-item" data-reveal>
+        <div class="timeline-marker" aria-hidden="true">
+          <span class="timeline-dot"><i class="fa-solid fa-briefcase"></i></span>
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-top">
+            <span class="period">{{ experiencia.periodo }}</span>
+            {% if experiencia.actual %}<span class="badge badge-live"><span class="pulse-dot"></span> {{ textos.get('experiencia.actual', 'Actual') }}</span>{% endif %}
+            <span class="badge">{{ experiencia.modalidad }}</span>
+          </div>
+          <h3>{{ experiencia.puesto }}</h3>
+          <p class="institution"><i class="fa-solid fa-building" aria-hidden="true"></i> {{ experiencia.empresa }}{% if experiencia.ubicacion %} · {{ experiencia.ubicacion }}{% endif %}</p>
+          {% if experiencia.descripcion %}<p class="timeline-desc">{{ experiencia.descripcion }}</p>{% endif %}
+          {% if experiencia.lista_logros %}
+          <ul class="achievement-list">
+            {% for logro in experiencia.lista_logros %}
+            <li><i class="fa-solid fa-angle-right" aria-hidden="true"></i> {{ logro }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </article>
+      {% else %}
+      <p class="empty-state">{{ textos.get('experiencia.vacio', 'Todavía no hay experiencia cargada.') }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TECNOLOGÍAS ============================== -->
+<section class="section section-alt" id="tecnologias">
+  <div class="container">
+    <div class="section-head split" data-reveal>
+      <div>
+        <span class="section-kicker">{{ textos.get('tecnologias.kicker', '04 — Stack') }}</span>
+        <h2>{{ textos.get('tecnologias.titulo', 'Tecnologías que') }} <span class="gradient-text">{{ textos.get('tecnologias.titulo_acento', 'uso') }}</span></h2>
+      </div>
+      <p class="section-note">{{ textos.get('tecnologias.nota', 'Herramientas con las que construyo, medido en nivel de dominio y experiencia práctica.') }}</p>
+    </div>
+
+    <div class="tech-groups">
+      {% for categoria, items in categorias.items() %}
+      <div class="tech-group" data-reveal>
+        <div class="tech-group-head">
+          <h3>{{ categoria }}</h3>
+          <span class="tech-count">{{ items|length }} {{ textos.get('tecnologias.herramienta', 'herramienta') if items|length == 1 else textos.get('tecnologias.herramientas', 'herramientas') }}</span>
+        </div>
+        <div class="tech-grid">
+          {% for tecnologia in items %}
+          <article class="tech-card" style="--tech-color: {{ tecnologia.color }}; --nivel: {{ tecnologia.nivel }}%;">
+            <div class="tech-card-top">
+              <span class="tech-icon"><i class="{{ tecnologia.icono }}" aria-hidden="true"></i></span>
+              <span class="tech-percent">{{ tecnologia.nivel }}%</span>
+            </div>
+            <h4>{{ tecnologia.nombre }}</h4>
+            <div class="tech-bar" role="progressbar" aria-label="Nivel de {{ tecnologia.nombre }}" aria-valuenow="{{ tecnologia.nivel }}" aria-valuemin="0" aria-valuemax="100">
+              <span class="tech-fill"></span>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <p class="empty-state">{{ textos.get('tecnologias.vacio', 'Todavía no hay tecnologías cargadas.') }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PROYECTOS ============================== -->
+<section class="section" id="proyectos">
+  <div class="container">
+    <div class="section-head split" data-reveal>
+      <div>
+        <span class="section-kicker">{{ textos.get('proyectos.kicker', '05 — Portfolio') }}</span>
+        <h2>{{ textos.get('proyectos.titulo', 'Proyectos') }} <span class="gradient-text">{{ textos.get('proyectos.titulo_acento', 'destacados') }}</span></h2>
+      </div>
+      <p class="section-note">{{ textos.get('proyectos.nota', 'Una selección de trabajos donde aplico el stack completo, del modelo de datos a la interfaz.') }}</p>
+    </div>
+
+    <div class="projects-grid">
+      {% for proyecto in proyectos %}
+      <article class="project-card{% if proyecto.destacado %} is-featured{% endif %}" data-reveal>
+        <div class="project-media">
+          <img src="{{ proyecto.imagen_url|media_url }}" alt="Portada del proyecto {{ proyecto.titulo }}" loading="lazy" width="1200" height="750">
+          {% if proyecto.destacado %}<span class="project-star"><i class="fa-solid fa-star" aria-hidden="true"></i> {{ textos.get('proyectos.destacado', 'Destacado') }}</span>{% endif %}
+          <span class="project-number" aria-hidden="true">0{{ loop.index }}</span>
+        </div>
+        <div class="project-body">
+          <h3>{{ proyecto.titulo }}</h3>
+          <p>{{ proyecto.descripcion }}</p>
+          {% if proyecto.tecnologias %}
+          <ul class="project-tags" aria-label="Tecnologías del proyecto">
+            {% for tecnologia in proyecto.tecnologias %}
+            <li style="--tech-color: {{ tecnologia.color }};"><i class="{{ tecnologia.icono }}" aria-hidden="true"></i> {{ tecnologia.nombre }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="project-links">
+            {% if proyecto.repo_url %}
+            <a href="{{ proyecto.repo_url }}" target="_blank" rel="noopener">
+              <i class="fa-brands fa-github" aria-hidden="true"></i> {{ textos.get('proyectos.repositorio', 'Repositorio') }}
+            </a>
+            {% endif %}
+            {% if proyecto.demo_url %}
+            <a href="{{ proyecto.demo_url }}" target="_blank" rel="noopener">
+              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> {{ textos.get('proyectos.demo', 'Demo') }}
+            </a>
+            {% endif %}
+            {% if not proyecto.repo_url and not proyecto.demo_url %}
+            <span class="project-private"><i class="fa-solid fa-lock" aria-hidden="true"></i> {{ textos.get('proyectos.academico', 'Proyecto académico') }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+      {% else %}
+      <p class="empty-state">{{ textos.get('proyectos.vacio', 'Todavía no hay proyectos cargados.') }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MAPA / IFRAME ============================== -->
+<section class="section section-map" id="ubicacion">
+  <div class="container map-grid">
+    <div class="map-copy" data-reveal>
+      <span class="section-kicker">{{ textos.get('mapa.kicker', 'Ubicación') }}</span>
+      <h2>{{ textos.get('mapa.titulo_1', 'Desde Villa San Nicolás,') }}<br><span class="gradient-text">{{ textos.get('mapa.titulo_2', 'Córdoba, para el mundo.') }}</span></h2>
+      <p>{{ textos.get('mapa.texto', 'Desde Villa San Nicolás, a minutos de Carlos Paz, trabajo de forma remota con equipos y clientes de cualquier lugar. La distancia no es un límite cuando la comunicación y los procesos son claros.') }}</p>
+      <div class="map-facts">
+        <div><i class="fa-solid fa-earth-americas" aria-hidden="true"></i><span>{{ textos.get('mapa.dato_1', 'UTC−3 · Argentina') }}</span></div>
+        <div><i class="fa-solid fa-clock" aria-hidden="true"></i><span>{{ textos.get('mapa.dato_2', 'Respuesta en menos de 24 h') }}</span></div>
+        <div><i class="fa-solid fa-language" aria-hidden="true"></i><span>{{ textos.get('mapa.dato_3', 'Español · Inglés técnico') }}</span></div>
+      </div>
+    </div>
+    <div class="map-frame" data-reveal data-delay="1">
+      <iframe
+        title="{{ textos.get('mapa.titulo_iframe', 'Mapa de Villa San Nicolás, Malagueño, Córdoba, Argentina') }}"
+        src="https://www.openstreetmap.org/export/embed.html?bbox={{ textos.get('mapa.bbox', '-64.50,-31.47,-64.41,-31.40')|replace(',', '%2C') }}&amp;layer=mapnik&amp;marker={{ textos.get('mapa.marker', '-31.4365,-64.4538')|replace(',', '%2C') }}"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-badge">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <div><strong>{{ textos.get('mapa.badge_titulo', 'Villa San Nicolás') }}</strong><small>{{ textos.get('mapa.badge_subtitulo', 'Malagueño, Córdoba') }}</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CONTACTO ============================== -->
+<section class="section section-contact" id="contacto">
+  <div class="container contact-grid">
+    <div class="contact-copy" data-reveal>
+      <span class="section-kicker">{{ textos.get('contacto.kicker', '06 — Contacto') }}</span>
+      <h2>{{ textos.get('contacto.titulo_1', '¿Tenés una idea?') }}<br><span class="gradient-text">{{ textos.get('contacto.titulo_2', 'Hagámosla realidad.') }}</span></h2>
+      <p>
+        {{ textos.get('contacto.texto', 'Estoy abierto a oportunidades laborales, proyectos freelance y colaboraciones. Contame qué necesitás y te respondo con una propuesta clara.') }}
+      </p>
+
+      <a class="contact-line" href="mailto:{{ perfil.email }}">
+        <span class="contact-line-icon"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span>
+        <span><small>{{ textos.get('contacto.etiqueta_email', 'Escribime') }}</small><strong>{{ perfil.email }}</strong></span>
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </a>
+
+      {% if perfil.telefono %}
+      <a class="contact-line" href="tel:{{ perfil.telefono|replace(' ', '') }}">
+        <span class="contact-line-icon"><i class="fa-solid fa-phone" aria-hidden="true"></i></span>
+        <span><small>{{ textos.get('contacto.etiqueta_telefono', 'Teléfono') }}</small><strong>{{ perfil.telefono }}</strong></span>
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </a>
+      {% endif %}
+
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="{{ url_for('public.descargar_cv') }}">
+          <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> {{ textos.get('boton.descargar_cv_largo', 'Descargar CV en PDF') }}
+        </a>
+        <div class="socials">
+          {% if perfil.github %}<a href="{{ perfil.github }}" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>{% endif %}
+          {% if perfil.linkedin %}<a href="{{ perfil.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>{% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-wrap" data-reveal data-delay="1">
+      <div class="form-head">
+        <h3>{{ textos.get('contacto.form_titulo', 'Mandame un mensaje') }}</h3>
+        <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> {{ textos.get('contacto.form_seguro', 'Formulario protegido') }}</span>
+      </div>
+      <form method="post" action="{{ url_for('public.contacto') }}" class="contact-form">
+        {{ form.hidden_tag() }}
+        <div class="form-row">
+          <div class="field">
+            <label for="{{ form.nombre.id }}">{{ textos.get('form.nombre', 'Nombre') }}</label>
+            {{ form.nombre(class_="input", placeholder=textos.get('form.nombre_placeholder', 'Tu nombre'), autocomplete="name", required=true) }}
+            {% for error in form.nombre.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+          <div class="field">
+            <label for="{{ form.email.id }}">{{ textos.get('form.email', 'Email') }}</label>
+            {{ form.email(class_="input", placeholder="tu@email.com", autocomplete="email", required=true) }}
+            {% for error in form.email.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+        </div>
+        <div class="field">
+          <label for="{{ form.asunto.id }}">{{ textos.get('form.asunto', 'Asunto') }}</label>
+          {{ form.asunto(class_="input", placeholder=textos.get('form.asunto_placeholder', 'Propuesta, consulta, colaboración...'), required=true) }}
+          {% for error in form.asunto.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+        <div class="field">
+          <label for="{{ form.mensaje.id }}">{{ textos.get('form.mensaje', 'Mensaje') }}</label>
+          {{ form.mensaje(class_="input textarea", placeholder=textos.get('form.mensaje_placeholder', 'Contame un poco más...'), required=true) }}
+          {% for error in form.mensaje.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+        <div class="hp-field" aria-hidden="true">{{ form.website.label }}{{ form.website() }}</div>
+        {{ form.submit(class_="btn btn-primary btn-full", value=textos.get('form.enviar', 'Enviar mensaje')) }}
+        <p class="form-note"><i class="fa-solid fa-lock" aria-hidden="true"></i> {{ textos.get('contacto.form_nota', 'Tus datos solo se usan para responder tu mensaje.') }}</p>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% macro render_field(campo) %}
+<div class="field{% if campo.errors %} has-error{% endif %}{% if campo.type == 'BooleanField' %} field-check{% endif %}">
+  {% if campo.type == 'BooleanField' %}
+    <label class="check">
+      {{ campo() }}
+      <span>{{ campo.label.text }}</span>
+    </label>
+  {% else %}
+    {{ campo.label(class_="label") }}
+    {% if campo.type == 'TextAreaField' %}
+      {{ campo(class_="input textarea") }}
+    {% elif campo.type == 'SelectMultipleField' %}
+      {{ campo(class_="input select multiple") }}
+      <small class="help">{{ campo.description or "Usá Ctrl/Cmd para seleccionar varias opciones." }}</small>
+    {% elif campo.type == 'SelectField' %}
+      {{ campo(class_="input select") }}
+    {% elif campo.type == 'DateField' %}
+      {{ campo(class_="input", type="date") }}
+    {% elif campo.type == 'IntegerField' %}
+      {{ campo(class_="input", type="number") }}
+    {% else %}
+      {{ campo(class_="input") }}
+    {% endif %}
+  {% endif %}
+  {% if campo.description and campo.type != 'SelectMultipleField' %}
+    <small class="help">{{ campo.description }}</small>
+  {% endif %}
+  {% for error in campo.errors %}
+    <p class="field-error"><i class="fa-solid fa-circle-exclamation"></i> {{ error }}</p>
+  {% endfor %}
+</div>
+{% endmacro %}

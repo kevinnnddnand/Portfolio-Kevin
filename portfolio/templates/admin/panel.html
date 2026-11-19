@@ -1,0 +1,145 @@
+{% extends "admin/base.html" %}
+{% from "admin/_macros.html" import render_field %}
+
+{% block title %}Panel{% endblock %}
+{% block breadcrumb %}Panel de administración{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <span class="eyebrow">Resumen general</span>
+    <h1>Hola, {{ current_user.nombre }} <span class="wave" aria-hidden="true">👋</span></h1>
+    <p>Todo lo que ves acá se guarda en MySQL y se publica al instante en el portfolio.</p>
+  </div>
+  <div class="page-head-actions">
+    <a class="btn btn-primary" href="{{ url_for('public.inicio') }}" target="_blank" rel="noopener">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver portfolio
+    </a>
+  </div>
+</div>
+
+<div class="stat-grid">
+  <a class="stat-card" href="{{ url_for('admin.estudios') }}">
+    <span class="stat-icon icon-cyan"><i class="fa-solid fa-graduation-cap"></i></span>
+    <span class="stat-value">{{ total_estudios }}</span>
+    <span class="stat-label">Estudios</span>
+    <span class="stat-link">Administrar <i class="fa-solid fa-arrow-right"></i></span>
+  </a>
+  <a class="stat-card" href="{{ url_for('admin.experiencias') }}">
+    <span class="stat-icon icon-violet"><i class="fa-solid fa-briefcase"></i></span>
+    <span class="stat-value">{{ total_experiencias }}</span>
+    <span class="stat-label">Experiencias</span>
+    <span class="stat-link">Administrar <i class="fa-solid fa-arrow-right"></i></span>
+  </a>
+  <a class="stat-card" href="{{ url_for('admin.tecnologias') }}">
+    <span class="stat-icon icon-amber"><i class="fa-solid fa-layer-group"></i></span>
+    <span class="stat-value">{{ total_tecnologias }}</span>
+    <span class="stat-label">Tecnologías</span>
+    <span class="stat-link">Administrar <i class="fa-solid fa-arrow-right"></i></span>
+  </a>
+  <a class="stat-card" href="{{ url_for('admin.proyectos') }}">
+    <span class="stat-icon icon-blue"><i class="fa-solid fa-diagram-project"></i></span>
+    <span class="stat-value">{{ total_proyectos }}</span>
+    <span class="stat-label">Proyectos</span>
+    <span class="stat-link">Administrar <i class="fa-solid fa-arrow-right"></i></span>
+  </a>
+</div>
+
+<div class="dashboard-grid">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Mensajes recientes</h2>
+        <p>Consultas recibidas desde el formulario de contacto.</p>
+      </div>
+      <a class="link-more" href="{{ url_for('admin.mensajes') }}">Ver todos <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    {% if mensajes %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th>Remitente</th><th>Asunto</th><th>Fecha</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+          {% for mensaje in mensajes %}
+          <tr class="{% if not mensaje.leido %}is-unread{% endif %}">
+            <td>
+              <div class="person-cell">
+                <span class="person-avatar">{{ mensaje.nombre[:1]|upper }}</span>
+                <div><strong>{{ mensaje.nombre }}</strong><small>{{ mensaje.email }}</small></div>
+              </div>
+            </td>
+            <td><a class="row-link" href="{{ url_for('admin.mensaje_detalle', item_id=mensaje.id) }}">{{ mensaje.asunto }}</a></td>
+            <td class="muted-cell">{{ mensaje.creado_en|fecha_hora }}</td>
+            <td>
+              {% if mensaje.leido %}<span class="pill pill-ok">Leído</span>
+              {% else %}<span class="pill pill-new">Nuevo</span>{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-panel">
+      <i class="fa-regular fa-envelope-open"></i>
+      <h3>Sin mensajes todavía</h3>
+      <p>Cuando alguien complete el formulario del portfolio, aparecerá acá.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  <aside class="dashboard-aside">
+    <section class="card profile-summary">
+      <div class="card-head">
+        <h2>Perfil público</h2>
+        <a class="icon-btn" href="{{ url_for('admin.perfil') }}" aria-label="Editar perfil"><i class="fa-solid fa-pen"></i></a>
+      </div>
+      {% set perfil_admin = current_user.perfil %}
+      {% if perfil_admin %}
+      <div class="profile-summary-main">
+        <img src="{{ perfil_admin.avatar_url|media_url }}" alt="" width="64" height="64">
+        <div>
+          <strong>{{ perfil_admin.nombre_completo }}</strong>
+          <span>{{ perfil_admin.titulo }}</span>
+        </div>
+      </div>
+      <ul class="profile-facts">
+        <li><i class="fa-solid fa-envelope"></i> {{ perfil_admin.email }}</li>
+        <li><i class="fa-solid fa-location-dot"></i> {{ perfil_admin.ubicacion or "Sin ubicación" }}</li>
+        <li><i class="fa-solid fa-circle-check"></i> {{ perfil_admin.disponibilidad or "Sin disponibilidad" }}</li>
+      </ul>
+      <a class="btn btn-ghost btn-full" href="{{ url_for('admin.perfil') }}"><i class="fa-solid fa-user-pen"></i> Editar perfil</a>
+      {% else %}
+      <div class="empty-panel compact">
+        <i class="fa-solid fa-user-plus"></i>
+        <p>Completá tu perfil para publicar el sitio.</p>
+        <a class="btn btn-primary btn-full" href="{{ url_for('admin.perfil') }}">Crear perfil</a>
+      </div>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>Accesos rápidos</h2></div>
+      <div class="quick-actions">
+        <a href="{{ url_for('admin.estudio_nuevo') }}"><i class="fa-solid fa-graduation-cap"></i><span>Nuevo estudio</span></a>
+        <a href="{{ url_for('admin.experiencia_nuevo') }}"><i class="fa-solid fa-briefcase"></i><span>Nueva experiencia</span></a>
+        <a href="{{ url_for('admin.tecnologia_nuevo') }}"><i class="fa-solid fa-layer-group"></i><span>Nueva tecnología</span></a>
+        <a href="{{ url_for('admin.proyecto_nuevo') }}"><i class="fa-solid fa-diagram-project"></i><span>Nuevo proyecto</span></a>
+      </div>
+    </section>
+
+    <section class="card status-card">
+      <div class="status-row">
+        <span class="status-dot"></span>
+        <div><strong>Sitio publicado</strong><small>Los cambios se aplican en tiempo real</small></div>
+      </div>
+      <div class="status-links">
+        <a href="{{ url_for('public.api_portfolio') }}" target="_blank" rel="noopener"><i class="fa-solid fa-code"></i> API JSON</a>
+        <a href="{{ url_for('public.descargar_cv') }}"><i class="fa-solid fa-file-pdf"></i> CV actualizado</a>
+      </div>
+    </section>
+  </aside>
+</div>
+{% endblock %}

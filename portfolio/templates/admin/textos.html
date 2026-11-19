@@ -1,0 +1,58 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Contenido del sitio{% endblock %}
+{% block breadcrumb %}Contenido del sitio{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <span class="eyebrow">Contenido</span>
+    <h1><i class="fa-solid fa-pen-to-square page-icon"></i> Contenido del sitio</h1>
+    <p>Editá las frases que se muestran en el portfolio. Todo se guarda en MySQL y se refleja en la página pública.</p>
+  </div>
+  <div class="page-head-actions">
+    <a class="btn btn-ghost" href="{{ url_for('public.inicio') }}" target="_blank" rel="noopener">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver portfolio
+    </a>
+  </div>
+</div>
+
+<div class="card">
+  <form method="post" class="admin-form" novalidate>
+    {{ form.hidden_tag() }}
+
+    {% if form.errors %}
+    <div class="form-alert">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <div><strong>Revisá los campos marcados.</strong></div>
+    </div>
+    {% endif %}
+
+    {% for seccion, items in filas|groupby('seccion') %}
+    <details class="texto-group" {% if loop.first %}open{% endif %}>
+      <summary><i class="fa-solid fa-layer-group"></i> {{ seccion }} <span>{{ items|length }} textos</span></summary>
+      <div class="texto-group-body">
+        {% for texto in items %}
+        <div class="field">
+          <label class="label" for="texto-{{ texto.id }}">{{ texto.etiqueta }}</label>
+          {% if texto.valor|length > 110 %}
+          <textarea class="input textarea" rows="3" id="texto-{{ texto.id }}" name="{{ texto.clave }}">{{ texto.valor }}</textarea>
+          {% else %}
+          <input class="input" type="text" id="texto-{{ texto.id }}" name="{{ texto.clave }}" value="{{ texto.valor }}">
+          {% endif %}
+          <small class="help"><code>{{ texto.clave }}</code></small>
+        </div>
+        {% endfor %}
+      </div>
+    </details>
+    {% else %}
+    <p>No hay textos cargados. Ejecutá <code>flask seed-textos</code> para crearlos.</p>
+    {% endfor %}
+
+    <div class="form-actions">
+      {{ form.submit(class_="btn btn-primary") }}
+      <a class="btn btn-ghost" href="{{ url_for('admin.panel') }}">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

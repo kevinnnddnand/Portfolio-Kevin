@@ -1,0 +1,67 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Mensajes{% endblock %}
+{% block breadcrumb %}Mensajes{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <span class="eyebrow">Contacto</span>
+    <h1><i class="fa-solid fa-envelope page-icon"></i> Mensajes</h1>
+    <p>Consultas recibidas desde el formulario público del portfolio.</p>
+  </div>
+  <div class="page-head-actions">
+    <span class="counter-chip"><i class="fa-solid fa-inbox"></i> {{ mensajes|length }} total</span>
+    {% if sin_leer %}<span class="counter-chip is-new">{{ sin_leer }} sin leer</span>{% endif %}
+  </div>
+</div>
+
+<section class="card">
+  {% if mensajes %}
+  <div class="message-list">
+    {% for mensaje in mensajes %}
+    <article class="message-row {% if not mensaje.leido %}is-unread{% endif %}">
+      <span class="message-avatar">{{ mensaje.nombre[:1]|upper }}</span>
+      <div class="message-main">
+        <div class="message-top">
+          <strong>{{ mensaje.nombre }}</strong>
+          <span class="message-email">{{ mensaje.email }}</span>
+          {% if not mensaje.leido %}<span class="pill pill-new">Nuevo</span>{% endif %}
+          <time datetime="{{ mensaje.creado_en.isoformat() }}">{{ mensaje.creado_en|fecha_hora }}</time>
+        </div>
+        <a class="message-subject" href="{{ url_for('admin.mensaje_detalle', item_id=mensaje.id) }}">{{ mensaje.asunto }}</a>
+        <p>{{ mensaje.mensaje|truncate(150, True) }}</p>
+      </div>
+      <div class="message-actions">
+        <a class="icon-btn" href="{{ url_for('admin.mensaje_detalle', item_id=mensaje.id) }}" title="Leer mensaje" aria-label="Leer mensaje">
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <form method="post" action="{{ url_for('admin.mensaje_leido', item_id=mensaje.id) }}" class="inline-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="icon-btn" title="{% if mensaje.leido %}Marcar como no leído{% else %}Marcar como leído{% endif %}">
+            <i class="fa-solid {% if mensaje.leido %}fa-envelope{% else %}fa-envelope-open{% endif %}"></i>
+          </button>
+        </form>
+        <form method="post" action="{{ url_for('admin.mensaje_eliminar', item_id=mensaje.id) }}" class="inline-form"
+              data-confirm="¿Eliminar este mensaje? Esta acción no se puede deshacer.">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="icon-btn danger" title="Eliminar" aria-label="Eliminar">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </form>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-panel">
+    <i class="fa-regular fa-envelope-open"></i>
+    <h3>No hay mensajes todavía</h3>
+    <p>Cuando alguien te escriba desde el portfolio, vas a verlo acá.</p>
+    <a class="btn btn-ghost" href="{{ url_for('public.inicio') }}#contacto" target="_blank" rel="noopener">
+      Ver formulario público <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site_name }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ textos.get('sitio.descripcion', 'Portfolio de Kevin Basualdo: programación, diseño web y contenido digital con Python, Flask y MySQL.') }}{% endblock %}">
+  <meta name="author" content="{{ textos.get('sitio.copyright_nombre', 'Kevin Basualdo') }}">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="canonical" href="{{ site_url }}{{ request.path }}">
+
+  <!-- Open Graph / redes sociales -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}{{ site_name }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ textos.get('sitio.og_descripcion', 'Portfolio full stack con Python, Flask y MySQL.') }}{% endblock %}">
+  <meta property="og:url" content="{{ site_url }}{{ request.path }}">
+  <meta property="og:image" content="{{ site_url }}{{ url_for('static', filename='img/og-portfolio.svg') }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon y logo local -->
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo.svg') }}">
+
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Íconos FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" referrerpolicy="no-referrer">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <a class="skip-link" href="#contenido">{{ textos.get('sitio.saltar', 'Saltar al contenido principal') }}</a>
+
+  {% block header %}
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="{{ url_for('public.inicio') }}" aria-label="Ir al inicio">
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" width="38" height="38">
+        <span class="brand-text">{{ textos.get('sitio.marca', 'kevin.dev') }}</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
+        <a href="{{ url_for('public.inicio') }}#sobre-mi" data-nav="sobre-mi">{{ textos.get('nav.sobre_mi', 'Sobre mí') }}</a>
+        <a href="{{ url_for('public.inicio') }}#estudios" data-nav="estudios">{{ textos.get('nav.estudios', 'Estudios') }}</a>
+        <a href="{{ url_for('public.inicio') }}#experiencia" data-nav="experiencia">{{ textos.get('nav.experiencia', 'Experiencia') }}</a>
+        <a href="{{ url_for('public.inicio') }}#tecnologias" data-nav="tecnologias">{{ textos.get('nav.tecnologias', 'Tecnologías') }}</a>
+        <a href="{{ url_for('public.inicio') }}#proyectos" data-nav="proyectos">{{ textos.get('nav.proyectos', 'Proyectos') }}</a>
+        <a href="{{ url_for('public.inicio') }}#contacto" data-nav="contacto">{{ textos.get('nav.contacto', 'Contacto') }}</a>
+
+        <div class="nav-actions">
+          <a class="btn btn-ghost btn-sm" href="{{ url_for('public.descargar_cv') }}">
+            <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> {{ textos.get('nav.cv', 'CV') }}
+          </a>
+          {% if current_user.is_authenticated %}
+            <a class="btn btn-primary btn-sm" href="{{ url_for('admin.panel') }}">
+              <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Panel
+            </a>
+          {% else %}
+            <a class="nav-login" href="{{ url_for('auth.login') }}" title="Acceso al panel de edición">
+              <i class="fa-solid fa-lock" aria-hidden="true"></i>
+              <span>{{ textos.get('nav.acceso', 'Acceso') }}</span>
+            </a>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+  </header>
+  {% endblock %}
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flashes" aria-live="polite" aria-atomic="true">
+      {% for category, message in messages %}
+      <div class="flash flash-{{ category }}" role="status">
+        <i class="fa-solid {% if category == 'success' %}fa-circle-check{% elif category == 'danger' %}fa-circle-exclamation{% elif category == 'warning' %}fa-triangle-exclamation{% else %}fa-circle-info{% endif %}" aria-hidden="true"></i>
+        <span>{{ message }}</span>
+        <button type="button" class="flash-close" aria-label="Cerrar notificación">&times;</button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <main id="contenido">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="{{ url_for('public.inicio') }}">
+          <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" width="34" height="34">
+          <span class="brand-text">{{ textos.get('sitio.marca', 'kevin.dev') }}</span>
+        </a>
+        <p>{{ textos.get('sitio.pie_descripcion', 'Construyendo experiencias web con código limpio, datos bien modelados y atención al detalle.') }}</p>
+        <div class="socials">
+          {% if perfil is defined %}
+            {% if perfil.github %}<a href="{{ perfil.github }}" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>{% endif %}
+            {% if perfil.linkedin %}<a href="{{ perfil.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>{% endif %}
+            {% if perfil.email %}<a href="mailto:{{ perfil.email }}" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>{% endif %}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3>{{ textos.get('footer.navegacion', 'Navegación') }}</h3>
+        <a href="{{ url_for('public.inicio') }}#sobre-mi">{{ textos.get('nav.sobre_mi', 'Sobre mí') }}</a>
+        <a href="{{ url_for('public.inicio') }}#proyectos">{{ textos.get('nav.proyectos', 'Proyectos') }}</a>
+        <a href="{{ url_for('public.inicio') }}#contacto">{{ textos.get('nav.contacto', 'Contacto') }}</a>
+        <a href="{{ url_for('public.descargar_cv') }}">{{ textos.get('boton.descargar_cv', 'Descargar CV') }}</a>
+      </div>
+
+      <div class="footer-col">
+        <h3>{{ textos.get('footer.stack', 'Stack') }}</h3>
+        <span>{{ textos.get('footer.stack_1', 'Python · Flask') }}</span>
+        <span>{{ textos.get('footer.stack_2', 'HTML · CSS') }}</span>
+        <span>{{ textos.get('footer.stack_3', 'JavaScript · MySQL') }}</span>
+        <span>{{ textos.get('footer.stack_4', 'Git') }}</span>
+      </div>
+
+      <div class="footer-col footer-status">
+        <h3>{{ textos.get('footer.estado', 'Estado') }}</h3>
+        <p><span class="status-dot"></span> {{ textos.get('sitio.estado', 'Disponible para proyectos') }}</p>
+        <a class="footer-mail" href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; {{ anio_actual }} {{ textos.get('sitio.copyright_nombre', 'Kevin Basualdo') }}. {{ textos.get('footer.derechos', 'Todos los derechos reservados.') }}</p>
+      <p class="footer-built">
+        Hecho con <i class="fa-brands fa-python" aria-label="Python"></i> {{ textos.get('sitio.hecho_con', 'Flask y MySQL') }}
+        <span class="sep">·</span>
+        <a href="{{ url_for('auth.login') }}"><i class="fa-solid fa-lock" aria-hidden="true"></i> {{ textos.get('nav.acceso', 'Acceso') }}</a>
+      </p>
+    </div>
+  </footer>
+  {% endblock %}
+
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

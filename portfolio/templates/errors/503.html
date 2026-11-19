@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Portfolio en preparación | {{ site_name }}{% endblock %}
+{% block content %}
+<section class="error-page">
+  <div class="container error-inner" data-reveal>
+    <span class="error-code">503</span>
+    <h1>Estamos preparando<br><span class="gradient-text">el portfolio.</span></h1>
+    <p>La base de datos todavía no tiene contenido. Iniciá sesión y cargá tu perfil para publicar el sitio.</p>
+    <div class="error-actions">
+      <a class="btn btn-primary" href="{{ url_for('auth.login') }}"><i class="fa-solid fa-lock"></i> Ir al panel</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

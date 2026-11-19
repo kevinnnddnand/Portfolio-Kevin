@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Página no encontrada | {{ site_name }}{% endblock %}
+{% block content %}
+<section class="error-page">
+  <div class="container error-inner" data-reveal>
+    <span class="error-code">404</span>
+    <h1>Esta página se fue<br><span class="gradient-text">a otro servidor.</span></h1>
+    <p>La URL que buscás no existe o fue movida. Volvé al inicio para seguir explorando el portfolio.</p>
+    <div class="error-actions">
+      <a class="btn btn-primary" href="{{ url_for('public.inicio') }}"><i class="fa-solid fa-house"></i> Volver al inicio</a>
+      <a class="btn btn-ghost" href="{{ url_for('public.inicio') }}#contacto">Contactarme</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

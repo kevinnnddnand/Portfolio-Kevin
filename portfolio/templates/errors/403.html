@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Acceso restringido | {{ site_name }}{% endblock %}
+{% block content %}
+<section class="error-page">
+  <div class="container error-inner" data-reveal>
+    <span class="error-code">403</span>
+    <h1>No tenés permiso<br><span class="gradient-text">para entrar acá.</span></h1>
+    <p>Esta sección requiere una sesión con permisos de administración.</p>
+    <div class="error-actions">
+      <a class="btn btn-primary" href="{{ url_for('auth.login') }}"><i class="fa-solid fa-lock"></i> Iniciar sesión</a>
+      <a class="btn btn-ghost" href="{{ url_for('public.inicio') }}">Volver al portfolio</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

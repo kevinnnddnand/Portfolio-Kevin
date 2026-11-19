@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600" role="img" aria-label="Avatar ilustrado de desarrollador">
+  <rect width="600" height="600" fill="#f1eee6"/>
+  <circle cx="300" cy="298" r="236" fill="#dfece7"/>
+  <circle cx="474" cy="126" r="44" fill="#0f766e" opacity="0.12"/>
+  <circle cx="118" cy="470" r="26" fill="#0f766e" opacity="0.10"/>
+
+  <!-- Hombros y sweater -->
+  <path d="M108 600c9-104 82-164 192-164s183 60 192 164Z" fill="#24433d"/>
+  <path d="M300 470l-36-26 36-22 36 22Z" fill="#f1eee6"/>
+
+  <!-- Cuello -->
+  <path d="M250 410h100v58c0 26-22 46-50 46s-50-20-50-46Z" fill="#e8c3a4"/>
+  <path d="M250 418c20 18 80 18 100 0v28c-22 22-78 22-100 0Z" fill="#d9ad8c" opacity="0.55"/>
+
+  <!-- Orejas -->
+  <ellipse cx="188" cy="312" rx="16" ry="25" fill="#e8c3a4"/>
+  <ellipse cx="412" cy="312" rx="16" ry="25" fill="#e8c3a4"/>
+
+  <!-- Rostro -->
+  <ellipse cx="300" cy="302" rx="112" ry="126" fill="#efcdb0"/>
+
+  <!-- Pelo -->
+  <path d="M188 292c0-86 46-142 112-142s112 56 112 142c-18-30-34-44-58-48-36 30-102 30-138 0-14 12-22 28-28 48Z" fill="#2b3531"/>
+  <path d="M214 348c6 54 42 90 86 90s80-36 86-90" fill="none" stroke="#2b3531" stroke-width="4" opacity="0.16"/>
+
+  <!-- Cejas y ojos -->
+  <path d="M240 284c14-8 30-8 44-2M316 282c14-6 30-6 44 2" fill="none" stroke="#2b3531" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="262" cy="312" r="6" fill="#2b3531"/>
+  <circle cx="338" cy="312" r="6" fill="#2b3531"/>
+
+  <!-- Anteojos -->
+  <g fill="none" stroke="#2b3531" stroke-width="5">
+    <rect x="228" y="292" width="68" height="44" rx="14"/>
+    <rect x="304" y="292" width="68" height="44" rx="14"/>
+    <path d="M296 312h8M228 306h-20M372 306h20"/>
+  </g>
+
+  <!-- Nariz y sonrisa -->
+  <path d="M300 322v18c0 6 4 10 10 10" fill="none" stroke="#cf9d7f" stroke-width="4" stroke-linecap="round"/>
+  <path d="M276 366c14 12 34 12 48 0" fill="none" stroke="#a5674f" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Detalle de la remera -->
+  <path d="M258 510c26 20 58 20 84 0" fill="none" stroke="#3a6159" stroke-width="4" stroke-linecap="round"/>
+</svg>

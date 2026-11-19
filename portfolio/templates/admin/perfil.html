@@ -1,0 +1,103 @@
+{% extends "admin/base.html" %}
+{% from "admin/_macros.html" import render_field %}
+
+{% block title %}Perfil{% endblock %}
+{% block breadcrumb %}Perfil{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <span class="eyebrow">Datos personales</span>
+    <h1><i class="fa-solid fa-user-pen page-icon"></i> Editar perfil</h1>
+    <p>Esta información aparece en la portada, en el pie y en el CV descargable.</p>
+  </div>
+  <div class="page-head-actions">
+    <a class="btn btn-ghost" href="{{ url_for('public.inicio') }}" target="_blank" rel="noopener">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver como visitante
+    </a>
+  </div>
+</div>
+
+<div class="form-layout">
+  <section class="card">
+    <form method="post" class="admin-form" novalidate>
+      {{ form.hidden_tag() }}
+
+      {% if form.errors %}
+      <div class="form-alert">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <div><strong>Revisá los campos marcados.</strong><span>Los datos no se guardaron todavía.</span></div>
+      </div>
+      {% endif %}
+
+      <div class="form-section-title">
+        <span><i class="fa-solid fa-id-card"></i> Identidad</span>
+        <small>Nombre, apellido y presentación</small>
+      </div>
+      <div class="form-row">
+        {{ render_field(form.nombre) }}
+        {{ render_field(form.apellido) }}
+      </div>
+      {{ render_field(form.titulo) }}
+      {{ render_field(form.subtitulo) }}
+      {{ render_field(form.bio) }}
+
+      <div class="form-section-title">
+        <span><i class="fa-solid fa-address-book"></i> Contacto</span>
+        <small>Visibles en el portfolio</small>
+      </div>
+      <div class="form-row">
+        {{ render_field(form.email) }}
+        {{ render_field(form.telefono) }}
+      </div>
+      {{ render_field(form.ubicacion) }}
+      <div class="form-row">
+        {{ render_field(form.linkedin) }}
+        {{ render_field(form.github) }}
+      </div>
+      <div class="form-row">
+        {{ render_field(form.sitio_web) }}
+        {{ render_field(form.disponibilidad) }}
+      </div>
+
+      <div class="form-section-title">
+        <span><i class="fa-solid fa-file-pdf"></i> CV y avatar</span>
+        <small>Presentación para descargar</small>
+      </div>
+      {{ render_field(form.cv_resumen) }}
+      {{ render_field(form.avatar_url) }}
+
+      <div class="form-actions">
+        {{ form.submit(class_="btn btn-primary") }}
+        <a class="btn btn-ghost" href="{{ url_for('admin.panel') }}">Cancelar</a>
+      </div>
+    </form>
+  </section>
+
+  <aside class="form-aside">
+    <div class="card preview-card">
+      <span class="preview-label">Así se ve tu portada</span>
+      <div class="preview-avatar">
+        <img src="{{ perfil.avatar_url|media_url }}" alt="Avatar actual" width="96" height="96">
+      </div>
+      <h3>{{ perfil.nombre_completo }}</h3>
+      <p class="preview-role">{{ perfil.titulo }}</p>
+      <p class="preview-bio">{{ perfil.bio|truncate(120, True) }}</p>
+      <div class="preview-meta">
+        <span><i class="fa-solid fa-location-dot"></i> {{ perfil.ubicacion or "Sin ubicación" }}</span>
+        <span><i class="fa-solid fa-envelope"></i> {{ perfil.email or "Sin email" }}</span>
+      </div>
+      <a class="btn btn-ghost btn-full" href="{{ url_for('public.inicio') }}" target="_blank" rel="noopener">
+        Ver perfil público <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <div class="card help-card">
+      <h3><i class="fa-solid fa-lightbulb"></i> Consejos</h3>
+      <p>El <strong>avatar</strong> puede ser una ruta local (<code>img/avatar.svg</code>) o una URL pública.</p>
+      <p>El <strong>resumen del CV</strong> es el primer párrafo del PDF. Si lo dejás vacío, se usa la biografía.</p>
+      <p>El CV se regenera automáticamente al descargarlo: no hace falta subir ningún archivo.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

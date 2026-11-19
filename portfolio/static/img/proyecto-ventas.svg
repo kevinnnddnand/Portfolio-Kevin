@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750" role="img" aria-label="Portada del proyecto Panel de Análisis de Ventas">
+  <rect width="1200" height="750" fill="#f2efe8"/>
+  <circle cx="120" cy="620" r="170" fill="#e3eeea"/>
+  <circle cx="1050" cy="120" r="150" fill="#e9e4d8"/>
+
+  <g transform="translate(90 120)">
+    <rect width="1020" height="510" rx="22" fill="#fffdf9" stroke="#ddd7ca" stroke-width="2"/>
+    <text x="42" y="52" fill="#1f2a27" font-family="Georgia, serif" font-size="28" font-weight="700">Resumen de ventas</text>
+    <text x="42" y="78" fill="#8b8a80" font-family="Segoe UI, sans-serif" font-size="13">Últimos seis meses</text>
+    <rect x="852" y="30" width="128" height="36" rx="18" fill="#f2efe8" stroke="#e0dacd"/>
+    <text x="916" y="53" fill="#5f665f" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">Este año</text>
+
+    <g transform="translate(40 104)">
+      <rect width="220" height="98" rx="14" fill="#f7f4ec"/>
+      <text x="20" y="30" fill="#8b8a80" font-family="Segoe UI, sans-serif" font-size="11" letter-spacing="1">INGRESOS</text>
+      <text x="20" y="66" fill="#1f2a27" font-family="Georgia, serif" font-size="30" font-weight="700">$ 48.250</text>
+      <path d="M174 62l10-12 12 7 14-18" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <rect x="238" width="220" height="98" rx="14" fill="#f7f4ec"/>
+      <text x="258" y="30" fill="#8b8a80" font-family="Segoe UI, sans-serif" font-size="11" letter-spacing="1">PEDIDOS</text>
+      <text x="258" y="66" fill="#1f2a27" font-family="Georgia, serif" font-size="30" font-weight="700">1.284</text>
+      <rect x="392" y="40" width="46" height="26" rx="13" fill="#e3f0ed"/>
+      <text x="415" y="58" fill="#0f766e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">+12%</text>
+
+      <rect x="476" width="220" height="98" rx="14" fill="#f7f4ec"/>
+      <text x="496" y="30" fill="#8b8a80" font-family="Segoe UI, sans-serif" font-size="11" letter-spacing="1">CLIENTES</text>
+      <text x="496" y="66" fill="#1f2a27" font-family="Georgia, serif" font-size="30" font-weight="700">863</text>
+      <rect x="630" y="40" width="46" height="26" rx="13" fill="#e3f0ed"/>
+      <text x="653" y="58" fill="#0f766e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">+8%</text>
+    </g>
+
+    <g transform="translate(40 238)">
+      <rect width="940" height="230" rx="16" fill="#f7f4ec"/>
+      <line x1="60" y1="30" x2="60" y2="190" stroke="#ddd7ca"/>
+      <line x1="60" y1="190" x2="900" y2="190" stroke="#ddd7ca"/>
+      <line x1="60" y1="140" x2="900" y2="140" stroke="#ebe6da"/>
+      <line x1="60" y1="90" x2="900" y2="90" stroke="#ebe6da"/>
+
+      <g fill="#cfc8b9">
+        <rect x="100" y="132" width="42" height="58" rx="6"/>
+        <rect x="208" y="112" width="42" height="78" rx="6"/>
+        <rect x="316" y="122" width="42" height="68" rx="6"/>
+        <rect x="532" y="92" width="42" height="98" rx="6"/>
+        <rect x="640" y="72" width="42" height="118" rx="6"/>
+        <rect x="748" y="52" width="42" height="138" rx="6"/>
+      </g>
+      <g fill="#0f766e">
+        <rect x="424" y="104" width="42" height="86" rx="6" opacity="0.75"/>
+        <rect x="856" y="36" width="42" height="154" rx="6"/>
+      </g>
+      <path d="M121 132l108-18 108 8 108-20 108-28 108-14 108-22" fill="none" stroke="#24433d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#24433d">
+        <circle cx="121" cy="132" r="5"/>
+        <circle cx="229" cy="114" r="5"/>
+        <circle cx="337" cy="122" r="5"/>
+        <circle cx="445" cy="102" r="5"/>
+        <circle cx="553" cy="74" r="5"/>
+        <circle cx="661" cy="60" r="5"/>
+        <circle cx="769" cy="38" r="5"/>
+      </g>
+
+      <g fill="#8b8a80" font-family="Segoe UI, sans-serif" font-size="10">
+        <text x="105" y="212">Ene</text>
+        <text x="213" y="212">Feb</text>
+        <text x="321" y="212">Mar</text>
+        <text x="429" y="212">Abr</text>
+        <text x="537" y="212">May</text>
+        <text x="645" y="212">Jun</text>
+        <text x="753" y="212">Jul</text>
+      </g>
+    </g>
+  </g>
+
+  <text x="90" y="692" fill="#8b8a80" font-family="Segoe UI, sans-serif" font-size="15" letter-spacing="2.5">ANÁLISIS DE DATOS</text>
+  <text x="1110" y="692" fill="#a29e92" font-family="Segoe UI, sans-serif" font-size="15" letter-spacing="2.5" text-anchor="end">PYTHON · MYSQL</text>
+</svg>

@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+{% from "admin/_macros.html" import render_field %}
+
+{% block title %}{{ titulo }}{% endblock %}
+{% block breadcrumb %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <span class="eyebrow">Contenido</span>
+    <h1><i class="{{ icono }} page-icon"></i> {{ titulo }}</h1>
+    <p>{{ descripcion }}</p>
+  </div>
+  <div class="page-head-actions">
+    <a class="btn btn-ghost" href="{{ url_for(cancelar_endpoint) }}"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+  </div>
+</div>
+
+<div class="form-layout">
+  <section class="card">
+    <form method="post" class="admin-form" novalidate>
+      {{ form.hidden_tag() }}
+
+      {% if form.errors %}
+      <div class="form-alert">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <div>
+          <strong>Revisá los campos marcados.</strong>
+          <span>Hay datos que necesitan corrección antes de guardar.</span>
+        </div>
+      </div>
+      {% endif %}
+
+      {% for campo in form %}
+        {% if campo.type not in ('HiddenField', 'CSRFTokenField', 'SubmitField') %}
+          {{ render_field(campo) }}
+        {% endif %}
+      {% endfor %}
+
+      <div class="form-actions">
+        {{ form.submit(class_="btn btn-primary") }}
+        <a class="btn btn-ghost" href="{{ url_for(cancelar_endpoint) }}">Cancelar</a>
+      </div>
+    </form>
+  </section>
+
+  <aside class="form-aside">
+    <div class="card help-card">
+      <h3><i class="fa-solid fa-circle-info"></i> Ayuda</h3>
+      {% if prefijo == 'estudio' %}
+        <p>Marcá <strong>“Actualmente en curso”</strong> para que la fecha de fin se oculte y el sitio muestre “Actualidad”.</p>
+        <p>El campo <strong>Orden</strong> define la posición: los números más bajos aparecen primero.</p>
+      {% elif prefijo == 'experiencia' %}
+        <p>En <strong>Logros</strong> podés escribir una línea por cada resultado. Se mostrarán como viñetas en el sitio y en el CV.</p>
+        <p>Si marcás <strong>“Trabajo actualmente aquí”</strong>, no hace falta completar la fecha de fin.</p>
+      {% elif prefijo == 'tecnologia' %}
+        <p>Usá clases de FontAwesome en <strong>Ícono</strong>, por ejemplo <code>fa-brands fa-python</code> o <code>fa-solid fa-database</code>.</p>
+        <p>El color se aplica a la barra de nivel. Formato hexadecimal: <code>#38e0c8</code>.</p>
+      {% elif prefijo == 'proyecto' %}
+        <p>Seleccioná las tecnologías con <strong>Ctrl/Cmd</strong>. Se muestran como etiquetas en la tarjeta del proyecto.</p>
+        <p>La portada acepta una ruta local (<code>img/mi-proyecto.svg</code>) o una URL externa de imagen.</p>
+      {% endif %}
+    </div>
+
+    {% if item %}
+    <div class="card danger-card">
+      <h3><i class="fa-solid fa-triangle-exclamation"></i> Zona de riesgo</h3>
+      <p>Eliminar este registro es permanente.</p>
+      <form method="post" action="{{ url_for('admin.' ~ prefijo ~ '_eliminar', item_id=item.id) }}"
+            data-confirm="¿Eliminar este registro? Esta acción no se puede deshacer.">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-danger btn-full"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
+      </form>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}

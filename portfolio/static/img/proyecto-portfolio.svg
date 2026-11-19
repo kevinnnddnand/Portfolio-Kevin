@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750" role="img" aria-label="Portada del proyecto Portfolio Web Full Stack">
+  <rect width="1200" height="750" fill="#f2efe8"/>
+  <circle cx="1040" cy="140" r="190" fill="#dfece7"/>
+  <circle cx="130" cy="640" r="160" fill="#e9e4d8"/>
+
+  <g transform="translate(90 120)">
+    <rect width="1020" height="510" rx="22" fill="#fffdf9" stroke="#ddd7ca" stroke-width="2"/>
+    <path d="M0 56h1020" stroke="#e7e1d5" stroke-width="2"/>
+    <circle cx="32" cy="28" r="6" fill="#c9c2b3"/>
+    <circle cx="54" cy="28" r="6" fill="#d8d1c2"/>
+    <circle cx="76" cy="28" r="6" fill="#e2dccd"/>
+    <rect x="106" y="17" width="240" height="22" rx="11" fill="#f2efe8"/>
+    <text x="122" y="32" fill="#8b8a80" font-family="Segoe UI, sans-serif" font-size="12">kevin.dev</text>
+
+    <g transform="translate(64 112)">
+      <rect width="132" height="28" rx="14" fill="#e3f0ed"/>
+      <circle cx="18" cy="14" r="4.5" fill="#0f766e"/>
+      <text x="32" y="18" fill="#0f766e" font-family="Segoe UI, sans-serif" font-size="11" letter-spacing="1.2">DISPONIBLE</text>
+
+      <rect y="54" width="110" height="9" rx="4.5" fill="#cfc8b9"/>
+      <text y="122" fill="#1f2a27" font-family="Georgia, serif" font-size="52" font-weight="700">Desarrollador</text>
+      <text y="182" fill="#1f2a27" font-family="Georgia, serif" font-size="52" font-weight="700">Full Stack</text>
+      <rect y="214" width="330" height="8" rx="4" fill="#ddd7ca"/>
+      <rect y="234" width="280" height="8" rx="4" fill="#e7e1d5"/>
+
+      <rect y="272" width="152" height="42" rx="21" fill="#0f766e"/>
+      <text x="76" y="298" fill="#f7f4ec" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Ver proyectos</text>
+      <rect x="168" y="272" width="142" height="42" rx="21" fill="none" stroke="#cfc8b9" stroke-width="2"/>
+      <text x="239" y="298" fill="#3b423d" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Descargar CV</text>
+
+      <g transform="translate(0 356)">
+        <rect width="72" height="34" rx="8" fill="#fffdf9" stroke="#e0dacd"/>
+        <text x="36" y="22" fill="#6f766f" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Python</text>
+        <rect x="82" width="58" height="34" rx="8" fill="#fffdf9" stroke="#e0dacd"/>
+        <text x="111" y="22" fill="#6f766f" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Flask</text>
+        <rect x="150" width="68" height="34" rx="8" fill="#fffdf9" stroke="#e0dacd"/>
+        <text x="184" y="22" fill="#6f766f" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">MySQL</text>
+      </g>
+    </g>
+
+    <g transform="translate(700 108)">
+      <circle cx="150" cy="152" r="126" fill="#f2efe8"/>
+      <path d="M70 258c8-66 40-104 80-104s72 38 80 104Z" fill="#24433d"/>
+      <ellipse cx="150" cy="120" rx="58" ry="64" fill="#efcdb0"/>
+      <path d="M92 118c0-42 26-70 58-70s58 28 58 70c-10-16-20-24-34-26-22 16-56 16-78 0-2 8-3 16-4 26Z" fill="#2b3531"/>
+      <circle cx="130" cy="124" r="4" fill="#2b3531"/>
+      <circle cx="170" cy="124" r="4" fill="#2b3531"/>
+      <path d="M134 146c10 8 22 8 32 0" fill="none" stroke="#a5674f" stroke-width="4" stroke-linecap="round"/>
+
+      <rect x="84" y="286" width="132" height="54" rx="12" fill="#fffdf9" stroke="#e0dacd"/>
+      <circle cx="106" cy="313" r="10" fill="#e3f0ed"/>
+      <path d="M101 313l4 4 7-8" fill="none" stroke="#0f766e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="124" y="303" width="72" height="6" rx="3" fill="#cfc8b9"/>
+      <rect x="124" y="317" width="52" height="6" rx="3" fill="#e2dccd"/>
+    </g>
+  </g>
+
+  <text x="90" y="692" fill="#8b8a80" font-family="Segoe UI, sans-serif" font-size="15" letter-spacing="2.5">PORTFOLIO PERSONAL</text>
+  <text x="1110" y="692" fill="#a29e92" font-family="Segoe UI, sans-serif" font-size="15" letter-spacing="2.5" text-anchor="end">FLASK · MYSQL</text>
+</svg>
